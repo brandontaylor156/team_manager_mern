@@ -6,8 +6,8 @@ import GameList from '../components/GameList'
 const Status = () => {
     const [players, setPlayers] = useState([]);
     const [loaded, setLoaded] = useState(false);
+    const [gameNum, setGameNum] = useState(1)
 
-    const {id} = useParams()
     const navigate = useNavigate();
 
     useEffect(()=>{
@@ -22,7 +22,7 @@ const Status = () => {
 
     return (
         <div className="container border border-dark">
-            <h1>Player Status - Game </h1>
+            <h1>Player Status - Game {gameNum}</h1>
             <div className="d-flex gap-3">
                 <Link to={"/status/game/1"}><h2>Game 1</h2></Link>
                 <Link to={"/status/game/2"}><h2>Game 2</h2></Link>
@@ -31,7 +31,7 @@ const Status = () => {
 
             <Routes>
                 <Route path="/:id" element={
-                    loaded ? <GameList players={players}/> : <h2>LOADING</h2>} 
+                    loaded ? <GameList players={players} setGameNum={setGameNum}/> : <h2>LOADING</h2>} 
                 />
             </Routes>
         </div>

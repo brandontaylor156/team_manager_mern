@@ -5,66 +5,69 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
-    
+import Rodal from 'rodal'
+import 'rodal/lib/rodal.css';
+
 const PlayerList = (props) => {
     const {players, removeFromDom} = props
 
-    const [open, setOpen] = React.useState(false)
+    const [selected, setSelected] = React.useState([])
+    const [visible, setVisible] = React.useState(false)
 
-    const handleOpen = (index) => {setOpen(true)}
-    const handleClose = (index) => {setOpen(false)}
+    const show = (index) => {
+        const selectedPlayer = players.filter((player, i) => index === i)
+        setSelected(selectedPlayer[0])
+        setVisible(true)
+    }
+
+    const hide = () => {
+        setVisible(false)
+    }
 
     return (
-        <table className="table table-striped">
-            <thead>
-                <tr>
-                    <th>Player Name</th>
-                    <th>Preferred Position</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            {players.map( (player, i) => {
-                return(
-                    <tr key={i}>
-                        <td className="align-middle">{player.name}</td>
-                        <td className="align-middle">{player.position}</td>
-                        <td>
-                            <Button onClick={handleOpen}>DELETE</Button>
-                            <Modal
-                                index={i}
-                                open={open}
-                                onClose={handleClose}>
-                                <Box sx={style}>
-                                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                                    Are you sure you want to delete {player.name}?
-                                    </Typography>
-                                    <Typography id="modal-modal-description" sx={{ mt: 2 }} className="d-flex gap-1">
-                                        <DeleteButton 
-                                            playerId={player._id} 
-                                            successCallback={()=>removeFromDom(player._id)} 
-                                        />
-                                        <button className="btn btn-info" onClick={handleClose}>Cancel</button>
-                                    </Typography>
-                                </Box>
-                            </Modal>
-                        </td>
+        <>
+            <table className="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Player Name</th>
+                        <th>Preferred Position</th>
+                        <th>Actions</th>
                     </tr>
-                )
-            })}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                {players.map( (player, i) => {
+                    return(
+                        <tr key={i}>
+                            <td className="align-middle">{player.name}</td>
+                            <td className="align-middle">{player.position}</td>
+                            <td>
+                                <Button onClick={()=> show(i)}>DELETE</Button>
+                            </td>
+                        </tr>
+                    )
+                })}
+                </tbody>
+            </table>
+            {selected &&
+            <Rodal visible={visible} onClose={hide}>
+                <div className="d-flex align-items-center h-100 flex-column justify-content-center text-center">
+                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                    Are you sure you want to delete {selected.name}?
+                    </Typography>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }} className="d-flex gap-1">
+                        <DeleteButton 
+                            playerId={selected._id} 
+                            successCallback={()=>{
+                                removeFromDom(selected._id)
+                                hide()
+                            }} 
+                        />
+                        <button className="btn btn-info" onClick={hide}>Cancel</button>
+                    </Typography>
+                </div>
+            </Rodal>
+            }
+        </>
     )
 }
     

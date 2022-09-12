@@ -13,10 +13,9 @@ module.exports.findAllPlayers = (request, response) => {
   };
 
 module.exports.createPlayer = (request, response) => {
-    const { name, position } = request.body;
+    const { name, position, game1, game2, game3 } = request.body;
     Player.create({
-        name,
-        position
+        ...request.body
     })
         .then(player => response.json(player))
         .catch(err => response.status(400).json(err));

@@ -1,12 +1,21 @@
-const GameList = (props) => {
-    const {players} = props
-    return (
+import {useParams} from 'react-router-dom'
+import {useEffect} from 'react'
 
+const GameList = (props) => {
+
+    const {players, setGameNum} = props
+    const {id} = useParams()
+
+    useEffect(()=>{
+        setGameNum(id)
+    },[id]);
+    
+    return (
         <table className="table table-striped">
             <thead>
                 <tr>
                     <th>Player Name</th>
-                    <th>Actions</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
@@ -15,7 +24,11 @@ const GameList = (props) => {
                     <tr key={i}>
                         <td className="align-middle">{player.name}</td>
                         <td>
-                            <p className="mb-0">ACTION</p>
+                            <div className="d-flex gap-3">
+                                <p className="mb-0">Playing</p>
+                                <p className="mb-0">Not Playing</p>
+                                <p className="mb-0">Undecided</p>
+                            </div>
                         </td>
                     </tr>
                 )
