@@ -13,7 +13,6 @@ module.exports.findAllPlayers = (request, response) => {
   };
 
 module.exports.createPlayer = (request, response) => {
-    const { name, position, game1, game2, game3 } = request.body;
     Player.create({
         ...request.body
     })

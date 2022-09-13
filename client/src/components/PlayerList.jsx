@@ -1,9 +1,8 @@
+import {Link} from 'react-router-dom'
 import DeleteButton from './DeleteButton'
-import * as React from 'react';
-import Box from '@mui/material/Box';
+import {useState} from 'react';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
 
 import Rodal from 'rodal'
 import 'rodal/lib/rodal.css';
@@ -11,8 +10,8 @@ import 'rodal/lib/rodal.css';
 const PlayerList = (props) => {
     const {players, removeFromDom} = props
 
-    const [selected, setSelected] = React.useState([])
-    const [visible, setVisible] = React.useState(false)
+    const [selected, setSelected] = useState([])
+    const [visible, setVisible] = useState(false)
 
     const show = (index) => {
         const selectedPlayer = players.filter((player, i) => index === i)
@@ -38,7 +37,7 @@ const PlayerList = (props) => {
                 {players.map( (player, i) => {
                     return(
                         <tr key={i}>
-                            <td className="align-middle">{player.name}</td>
+                            <td className="align-middle"><Link to={`/players/${player._id}`}>{player.name}</Link></td>
                             <td className="align-middle">{player.position}</td>
                             <td>
                                 <Button onClick={()=> show(i)}>DELETE</Button>

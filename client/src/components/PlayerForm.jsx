@@ -2,15 +2,16 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const PlayerForm = (props) => {
-    const {initialName, initialPosition, onSubmitProp} = props;
+    const {initialName, initialPosition, initialStatus, onSubmitProp} = props;
     const [name, setName] = useState(initialName); 
     const [position, setPosition] = useState(initialPosition)
+    const [gameStatus, setGameStatus] = useState(initialStatus)
 
     const navigate = useNavigate()
 
     const onSubmitHandler = e => {
         e.preventDefault();
-        onSubmitProp({name, position})
+        onSubmitProp({name, position, gameStatus})
     }
     
     return (

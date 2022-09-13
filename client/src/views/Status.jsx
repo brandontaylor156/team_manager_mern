@@ -31,7 +31,7 @@ const Status = () => {
 
             <Routes>
                 <Route path="/:id" element={
-                    loaded ? <GameList players={players} setGameNum={setGameNum}/> : <h2>LOADING</h2>} 
+                    loaded ? <GameList players={players} setPlayers={setPlayers} setGameNum={setGameNum}/> : <h2>LOADING</h2>} 
                 />
             </Routes>
         </div>
